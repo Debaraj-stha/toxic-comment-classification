@@ -2,5 +2,6 @@ pandas==2.2.2
 flask==3.0.3
 spacy==3.7.5
 emoji==2.12.1
-deep-translator
-numpy
+deep-translator==1.11.4
+numpy==1.26.4
+gunicorn==22.0.0
