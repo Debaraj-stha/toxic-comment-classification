@@ -1,0 +1,6 @@
+pandas==2.2.2
+flask==3.0.3
+spacy==3.7.5
+emoji==2.12.1
+deep-translator
+numpy
