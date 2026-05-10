@@ -1,6 +1,5 @@
 import emoji
 import re
-import spacy
 from constants import categories, bad_words
 from functools import cache
 import pandas as pd
@@ -10,14 +9,6 @@ import pickle
 from tensorflow.keras.models import load_model
 import os
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-@cache
-def load_spacy():
-    try:
-        return spacy.load("en_core_web_sm")
-    except OSError:
-        raise RuntimeError(
-            "spaCy model not found. Run: python -m spacy download en_core_web_sm"
-        )
 
 def convert_emoji(text):
     return emoji.demojize(text, delimiters=(" ", " "))
@@ -111,7 +102,6 @@ def translate(text):
         return text
     return GoogleTranslator(source="auto", target="en").translate(text)
 
-nlp = load_spacy()
 
 def preprocess(text):
     if not isinstance(text, str):
@@ -139,16 +129,7 @@ def preprocess(text):
     #  clean punctuation
     text = re.sub(r"[^\w\s!?\.]", " ", text)
 
-    #  spaCy processing
-    doc = nlp(text)
-
-    tokens = [
-        token.lemma_
-        for token in doc
-        if not token.is_space
-    ]
-
-    return " ".join(tokens)
+    return text
 
 
 
