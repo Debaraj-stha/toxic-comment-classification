@@ -1,5 +1,5 @@
 from flask import Flask,request,jsonify
-import pandas as pd
+
 from helper import make_predict
 from flask_cors import CORS
 import json
@@ -29,6 +29,4 @@ def predict():
     })
 
 if __name__ == "__main__":
-    df=pd.read_csv("test.csv")
-    print(df.shape)
     app.run(debug=True)
