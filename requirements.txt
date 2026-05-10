@@ -4,4 +4,4 @@ emoji==2.15.0
 deep-translator==1.11.4
 numpy==1.26.4
 gunicorn==26.0.0
-tensorflow==2.21.0
+tensorflow==2.13.1
