@@ -2,8 +2,6 @@ import emoji
 import re
 from constants import categories, bad_words
 from functools import cache
-import pandas as pd
-import numpy as np
 from deep_translator import GoogleTranslator
 import pickle
 from tensorflow.keras.models import load_model
