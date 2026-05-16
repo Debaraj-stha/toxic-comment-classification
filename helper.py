@@ -282,7 +282,7 @@ def recommend_blogs(user_id, N=10):
 
 def similar_posts(post_id, N=10):
     try:
-        model, item_encoder = load_recommender_model()
+        model, item_encoder,user_encoder,sparse_matrix = load_recommender_model()
 
         post_index = item_encoder.transform([post_id])[0]
 

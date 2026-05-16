@@ -4,9 +4,14 @@ from helper import make_predict,recommend_blogs,similar_posts,trending_in_networ
 from flask_cors import CORS
 import json
 app = Flask(__name__)
-CORS(app, resources={r"/predict": {"origins": ["http://localhost:3000","https://next-blog-dun.vercel.app"]}},
-      supports_credentials=True,  
-     )
+CORS(
+    app,
+    resources={r"/*": {"origins": [
+        "http://localhost:3000",
+        "https://next-blog-dun.vercel.app"
+    ]}},
+    supports_credentials=True
+)
 
 
 @app.route("/")
@@ -42,7 +47,7 @@ def similar():
     N = int(request.args.get("n", 10))
     res = similar_posts(post_id, N)
 
-    return jsonify(res)
+    return jsonify({"data":res})
 
 @app.route("/trending-in-network", methods=["GET"])
 def trending():
@@ -50,7 +55,7 @@ def trending():
     N = int(request.args.get("n", 10))
     res = trending_in_network(user_id, N)
 
-    return jsonify(res)
+    return jsonify({"data":res})
 
 if __name__ == "__main__":
     app.run(debug=True)

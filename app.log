@@ -1,0 +1,86 @@
+2026-05-16 14:07:21,400 - INFO - recommending blog error:No module named 'implicit'
+2026-05-16 14:08:27,435 - INFO - recommending blog error:No module named 'sklearn'
+2026-05-16 14:09:48,430 - INFO - recommendation model loaded
+2026-05-16 14:09:48,449 - INFO - recommending blog error:y contains previously unseen labels: '5dd020eb-4319-4f1a-8b89-45ba3b0784d6'
+2026-05-16 14:11:58,945 - INFO - recommending blog error:y contains previously unseen labels: '5dd020eb-4319-4f1a-8b89-45ba3b0784d6'
+2026-05-16 14:14:58,925 - INFO - recommendation model loaded
+2026-05-16 14:14:58,952 - ERROR - Exception on /recommend [GET]
+Traceback (most recent call last):
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/sklearn/utils/_encode.py", line 235, in _encode
+    return _map_to_integer(values, uniques)
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/sklearn/utils/_encode.py", line 174, in _map_to_integer
+    return xp.asarray([table[v] for v in values], device=device(values))
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/sklearn/utils/_encode.py", line 174, in <listcomp>
+    return xp.asarray([table[v] for v in values], device=device(values))
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/sklearn/utils/_encode.py", line 167, in __missing__
+    raise KeyError(key)
+KeyError: '5dd020eb-4319-4f1a-8b89-45ba3b0784d6'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/devraj/Documents/toxic-comment-classification/helper.py", line 256, in recommend_blogs
+    user_idx = user_encoder.transform([user_id])[0]
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/sklearn/preprocessing/_label.py", line 134, in transform
+    return _encode(y, uniques=self.classes_)
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/sklearn/utils/_encode.py", line 237, in _encode
+    raise ValueError(f"y contains previously unseen labels: {e}")
+ValueError: y contains previously unseen labels: '5dd020eb-4319-4f1a-8b89-45ba3b0784d6'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/flask_cors/extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/devraj/Documents/toxic-comment-classification/ENV/lib/python3.10/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/home/devraj/Documents/toxic-comment-classification/app.py", line 40, in recommend
+    res = recommend_blogs(user_id, N)
+  File "/home/devraj/Documents/toxic-comment-classification/helper.py", line 278, in recommend_blogs
+    print(e)
+OSError: [Errno 5] Input/output error
+2026-05-16 14:16:15,856 - INFO - recommendation model loaded
+2026-05-16 14:16:15,874 - INFO - recommending blog error:y contains previously unseen labels: '5dd020eb-4319-4f1a-8b89-45ba3b0784d6'
+2026-05-16 14:56:40,677 - INFO - recommendation model loaded
+2026-05-16 15:28:16,049 - INFO - recommendation model loaded
+2026-05-16 17:12:39,780 - INFO - recommendation model loaded
+2026-05-16 17:20:56,735 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:20:56,741 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:22:44,709 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:22:44,710 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:22:56,008 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:22:56,009 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:24:59,171 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:24:59,172 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:25:05,580 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:25:05,581 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:25:34,880 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:25:34,881 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:25:42,096 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:25:42,097 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:31:15,430 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:31:15,431 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:31:21,550 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:31:21,554 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:31:46,865 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:31:46,866 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:31:49,833 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:31:49,835 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:32:48,656 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:32:48,657 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:33:07,057 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:33:07,059 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:33:14,205 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:33:14,207 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:33:36,962 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:33:36,963 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:35:04,270 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:35:04,271 - INFO - similar post loading error:too many values to unpack (expected 2)
+2026-05-16 17:35:25,297 - INFO - recommendation model loaded
+2026-05-16 18:18:25,403 - INFO - recommendation model loaded
