@@ -1,6 +1,6 @@
 from flask import Flask,request,jsonify
 
-from helper import make_predict
+from helper import make_predict,recommend_blogs,similar_posts,trending_in_network
 from flask_cors import CORS
 import json
 app = Flask(__name__)
@@ -27,6 +27,30 @@ def predict():
     return jsonify({
         "predictions": predictions
     })
+
+@app.route("/recommend", methods=["GET"])
+def recommend():
+    user_id = request.args.get("user_id")
+    N = int(request.args.get("n", 10))
+    res = recommend_blogs(user_id, N)
+
+    return jsonify({"data":res})
+
+@app.route("/similar", methods=["GET"])
+def similar():
+    post_id = request.args.get("post_id")
+    N = int(request.args.get("n", 10))
+    res = similar_posts(post_id, N)
+
+    return jsonify(res)
+
+@app.route("/trending-in-network", methods=["GET"])
+def trending():
+    user_id = request.args.get("user_id")
+    N = int(request.args.get("n", 10))
+    res = trending_in_network(user_id, N)
+
+    return jsonify(res)
 
 if __name__ == "__main__":
     app.run(debug=True)

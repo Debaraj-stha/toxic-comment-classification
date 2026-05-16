@@ -7,6 +7,9 @@ import pickle
 from tensorflow.keras.models import load_model
 import os
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from scipy import sparse as sp
+from logger import logger
+
 
 def convert_emoji(text):
     return emoji.demojize(text, delimiters=(" ", " "))
@@ -216,3 +219,131 @@ def make_predict(comments):
     return labeled_predictions
                 
   
+
+@cache
+def load_recommender_model():
+    try:
+        model_path = os.path.join(BASE_DIR, "blog-recommender/als_model.pkl")
+        item_encoder_path = os.path.join(BASE_DIR, "blog-recommender/item_encoder.pkl")
+        user_encoder_path = os.path.join(BASE_DIR, "blog-recommender/user_encoder.pkl")
+        matrix_path=os.path.join(BASE_DIR, "blog-recommender/interaction_sparse.npz")
+
+
+        with open(model_path, "rb") as f:
+            model = pickle.load(f)
+
+        with open(item_encoder_path, "rb") as f:
+            item_encoder = pickle.load(f)
+
+        with open(user_encoder_path, "rb") as f:
+            user_encoder = pickle.load(f)
+
+        
+        sparse_matrix = sp.load_npz(matrix_path)
+        logger.info("recommendation model loaded")
+
+        return model, item_encoder,user_encoder,sparse_matrix
+    
+    except FileNotFoundError as e:
+        logger.info(f"recommendation model loading error:{e}")
+        raise RuntimeError(" Model files not found. Check paths.")
+    
+    
+def recommend_blogs(user_id, N=10):
+    try:
+        model, item_encoder, user_encoder, sparse_matrix = load_recommender_model()
+
+        user_idx = user_encoder.transform([user_id])[0]
+
+        item_indices, scores = model.recommend(
+            userid=user_idx,
+            user_items=sparse_matrix[user_idx],
+            N=N,
+            filter_already_liked_items=True
+        )
+
+        post_ids = item_encoder.inverse_transform(item_indices)
+
+        results = []
+
+        for pid, score in zip(post_ids, scores):
+            results.append({
+                "post_id": str(pid),
+                "score": float(score)
+            })
+
+        return results
+
+    except Exception as e:
+        print(e)
+        logger.info(f"recommending blog error:{e}")
+        return []
+    
+
+def similar_posts(post_id, N=10):
+    try:
+        model, item_encoder = load_recommender_model()
+
+        post_index = item_encoder.transform([post_id])[0]
+
+        item_indices, scores = model.similar_items(
+            post_index,
+            N=N + 1
+        )
+
+        post_ids = item_encoder.inverse_transform(item_indices)
+
+        results = []
+
+        for pid, score in zip(post_ids, scores):
+
+            # skip the same post itself
+            if pid == post_id:
+                continue
+
+            results.append({
+                "post_id": str(pid),
+                "score": float(score)
+            })
+
+        return results[:N]
+
+    except Exception as e:
+        print(e)
+        logger.info(f"similar post loading error:{e}")
+        return []
+    
+
+
+
+import numpy as np
+
+def trending_in_network(user_id, N=10):
+
+    try:
+        model, item_encoder, user_encoder, sparse_matrix = load_recommender_model()
+
+        user_idx = user_encoder.transform([user_id])[0]
+
+        similar_users, scores = model.similar_users(user_idx, N=30)
+
+        # weighted sum of interactions from similar users
+        user_weights = scores
+
+        item_scores = np.zeros(sparse_matrix.shape[1])
+
+        for sim_user_idx, weight in zip(similar_users, user_weights):
+            item_scores += sparse_matrix[sim_user_idx].toarray().flatten() * weight
+
+        top_items = np.argsort(-item_scores)[:N]
+
+        post_ids = item_encoder.inverse_transform(top_items)
+
+        return [
+            {"post_id": str(pid), "score": float(item_scores[idx])}
+            for pid, idx in zip(post_ids, top_items)
+        ]
+
+    except Exception as e:
+        print(e)
+        return []
